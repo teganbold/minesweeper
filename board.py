@@ -23,10 +23,9 @@ class Board():
         return False
     
     def handleClick(self, pos):
-        print(pos)
-        index = (pos[0] // self.piece_size[0], pos[1] // self.piece_size[1])
-        print(index)
-        print(self.getPiece(index).getHasMine())
+        index = (pos[1] // self.piece_size[1], pos[0] // self.piece_size[0])
+        return self.getPiece(index)
+
 
     def getPiece(self, index):
         return self.board[index[0]][index[1]]
