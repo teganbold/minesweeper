@@ -20,6 +20,8 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run_game = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.clickPiece()
         
     def draw_board(self):
         top_left = (0, 0)
@@ -32,4 +34,7 @@ class Game():
                 self.screen.blit(image, top_left)
                 top_left = (top_left[0] + piece_size[0],  top_left[1])
             top_left = (0, top_left[1] + piece_size[1])
-
+    
+    def clickPiece(self):
+        pos = pygame.mouse.get_pos()
+        self.board.handleClick(pos)
