@@ -1,5 +1,4 @@
 import pygame
-from pygame.locals import *
 
 class Game():
     def __init__(self, board, screensize) -> None:
@@ -22,7 +21,9 @@ class Game():
                 if event.type == pygame.QUIT:
                     run_game = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.clickPiece()
+                    pos = pygame.mouse.get_pos()
+                    piece = self.board.handleClick(pos)
+                    self.clickPiece(piece)
             if self.game_over:
                 #Print the whole board:
                 pass
@@ -47,9 +48,19 @@ class Game():
             return f"{dir}bomb-at-clicked-block.png"
         return f"{dir}{piece.getNeighbors()}.png"
         
-    def clickPiece(self):
-        pos = pygame.mouse.get_pos()
-        piece = self.board.handleClick(pos)
+    def clickPiece(self, piece):
         piece.click()
+        # recursively click piece if 0 neighboring bombs
+        if piece.getNeighbors() == 0:
+            x = piece.getRow()
+            y = piece.getCol()
+            board_size = self.board.getBoardSize()
+            for r in range(max(0, x - 1), min(board_size[0] -1, x + 1)+1):
+                for c in range(max(0, y - 1), min(board_size[1] - 1, y + 1)+1):
+                    piece = self.board.getBoard()[r][c]
+                    if not piece.isClicked(): #Skip original Value
+                        self.clickPiece(piece)
+                
         if piece.hasMine():
             self.game_over = True
+        

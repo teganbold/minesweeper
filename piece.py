@@ -15,6 +15,9 @@ class Piece():
     def getNeighbors(self):
         return self.neighbors
 
+    def setNeighbors(self, value):
+        self.neighbors = value
+
     def getRow(self):
         return self.row
 
@@ -23,8 +26,5 @@ class Piece():
 
     def click(self):
         self.is_clicked = True
-
-    def setNeighbors(self, value):
-        self.neighbors = value
 
 
