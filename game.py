@@ -23,7 +23,10 @@ class Game():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
                     piece = self.board.handleClick(pos)
-                    self.clickPiece(piece)
+                    if event.button == 1 and not piece.getFlagged():
+                        self.clickPiece(piece)
+                    elif event.button == 3:
+                        piece.flagPiece()
             if self.game_over:
                 #Print the whole board:
                 pass
@@ -42,6 +45,8 @@ class Game():
     
     def getImage(self, piece):
         dir = "assets/"
+        if piece.getFlagged():
+            return f"{dir}flag.png"
         if not piece.isClicked():
             return f"{dir}unclicked.png"
         if piece.hasMine():
