@@ -33,7 +33,6 @@ class Piece():
             self.flagged = False
         else:
             self.flagged = True
-    
+
     def getFlagged(self):
         return self.flagged
-    
