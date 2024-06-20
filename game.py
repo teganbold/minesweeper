@@ -1,14 +1,14 @@
 import pygame
 
 class Game():
-    def __init__(self, board, screensize) -> None:
+    def __init__(self, board: object, screensize: tuple) -> None:
         self.title = "Minesweeper"
         self.board = board
         self.screensize = screensize
         self.screen = pygame.display.set_mode(self.screensize)
         self.game_over = False
 
-    def run(self):
+    def run(self) -> None:
         pygame.init()
         pygame.display.set_caption("Minesweeper")
         run_game = True
@@ -26,11 +26,9 @@ class Game():
                         self.clickPiece(piece)
                     elif event.button == 3 and not piece.isClicked():
                         piece.flagPiece()
-            if self.game_over:
-                #Print the whole board:
-                pass
-        
-    def drawBoard(self):
+
+
+    def drawBoard(self) -> None:
         top_left = (0, 0)
         for row in self.board.getBoard():
             for piece in row:
@@ -41,8 +39,8 @@ class Game():
                 self.screen.blit(image, top_left)
                 top_left = (top_left[0] + piece_size[0],  top_left[1])
             top_left = (0, top_left[1] + piece_size[1])
-    
-    def getImage(self, piece):
+
+    def getImage(self, piece: str) -> str:
         dir = "assets/"
         if self.game_over and piece.hasMine() and not piece.isClicked():
             return f"{dir}unclicked-bomb.png"
@@ -53,8 +51,8 @@ class Game():
         if piece.hasMine():
             return f"{dir}bomb-at-clicked-block.png"
         return f"{dir}{piece.getNeighbors()}.png"
-        
-    def clickPiece(self, piece):
+
+    def clickPiece(self, piece) -> None:
         piece.click()
         # recursively click piece if 0 neighboring bombs
         if piece.getNeighbors() == 0 and not piece.hasMine():

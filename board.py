@@ -3,13 +3,13 @@ import random
 from piece import Piece
 
 class Board():
-    def __init__(self, board_size, mine_probablility, screen_size) -> None:
+    def __init__(self, board_size: tuple, mine_probablility: float, screen_size: tuple) -> None:
         self.board_size = board_size
         self.board = []
         self.piece_size = (screen_size[0] // board_size[0], screen_size[0] // board_size[0])
         self.createBoard(mine_probablility)
 
-    def createBoard(self, mine_probablility):
+    def createBoard(self, mine_probablility: float) -> None:
         for rows in range(self.board_size[0]):
             row = []
             for cols in range(self.board_size[1]):
@@ -18,19 +18,19 @@ class Board():
             self.board.append(row)
         self.getNeighbors()
 
-    def plantMine(self, mine_probablility):
+    def plantMine(self, mine_probablility: float) -> bool:
         if random.random() < mine_probablility:
             return True
         return False
-    
-    def getNeighbors(self):
+
+    def getNeighbors(self) -> None:
         for row in self.board:
             for piece in row:
                 x = piece.getRow()
                 y = piece.getCol()
                 piece.setNeighbors(self.populateNeighbors(x, y))
 
-    def populateNeighbors(self, x, y):
+    def populateNeighbors(self, x: int, y: int) -> int:
         neighbors = 0
         # Check All the Neighbors
         for r in range(max(0, x - 1), min(self.board_size[0] -1, x + 1)+1):
@@ -41,14 +41,14 @@ class Board():
                     neighbors += 1
         return neighbors
 
-    def handleClick(self, pos):
+    def handleClick(self, pos: tuple) -> Piece:
         index = (pos[1] // self.piece_size[1], pos[0] // self.piece_size[0])
         return self.getPiece(index)
 
-    def getPiece(self, index):
+    def getPiece(self, index: tuple) -> Piece:
         return self.board[index[0]][index[1]]
 
-    def getBoard(self):
+    def getBoard(self) -> list:
         return self.board
 
     def getBoardSize(self):
